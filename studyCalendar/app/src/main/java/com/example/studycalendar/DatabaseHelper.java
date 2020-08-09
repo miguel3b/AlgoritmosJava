@@ -6,13 +6,19 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.Constants.Constants;
 import com.example.dto.ActividadDiariaDTO;
 import com.example.entity.EstudioDetalle;
 import com.example.entity.TemaEstudio;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -289,5 +295,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         int delete = db.delete(ESTUDIO_DETALLE, "ID in (?)", new String[]{ "111"});
         db.close();
+    }
+
+    public void backUp() {
+        try {
+            File sd = Environment.getDataDirectory();
+            File data = Environment.getDataDirectory();
+
+            if (sd.canWrite()) {
+                String currentDBPath = "//data//com.example.studycalendar//databases//dbname.db";
+                String backupDBPath = "dbname.db";
+
+                File currentDB = new File(data, currentDBPath);
+                File backupDB = new File(sd, backupDBPath);
+
+                Log.d("backupDB path", "" + backupDB.getAbsolutePath());
+
+                if (currentDB.exists()) {
+                    FileChannel src = new FileInputStream(currentDB).getChannel();
+                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+                }
+
+                Log.d("RespaldoExitoso", "El respaldo se genero con exito:" + backupDB.getAbsolutePath());
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 }

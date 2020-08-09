@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         mDatabaseHelper = new DatabaseHelper(this);
 
-        // mDatabaseHelper.deleteDuplicated();
+        mDatabaseHelper.backUp();
 
         Long actividadesTerminadas = mDatabaseHelper.getCountByEstado(Constants.ID_CATALOGO_SINO_SI);
         Long actividadesIncompletas = mDatabaseHelper.getCountByEstado(Constants.ID_CATALOGO_SINO_NO);
@@ -261,4 +261,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
  **/
+
+
+        public void generarRespaldoRegistros(){
+
+            //mDatabaseHelper.
+
+        }
 }
