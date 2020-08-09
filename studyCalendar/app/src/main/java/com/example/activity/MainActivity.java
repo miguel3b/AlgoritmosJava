@@ -67,6 +67,16 @@ public class MainActivity extends AppCompatActivity {
         viewById.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, RepasosSinRealizar.class);
+                startActivity(intent);
+            }
+        });
+
+        TextView viewIncompletas = (TextView) findViewById(R.id.tvActividadesIncompletas);
+
+        viewIncompletas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, DailyStudy.class);
                 startActivity(intent);
             }

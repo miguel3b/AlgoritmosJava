@@ -51,14 +51,19 @@ public class ActividadesDiariasAdapter extends BaseAdapter {
         ActividadDiariaDTO studyTable =  actividadDiariaDTO.get(position);
 
         // TODO - Pendiente por investigar a detalle que hace el .inflate
+
+        //Lo que aqui se esta haciendo es asignar el layout 'daily_item' a la vista 'convertView'
         convertView = LayoutInflater.from(context).inflate(R.layout.daily_item,null);
+
         TextView tvContenido = convertView.findViewById(R.id.tvContenido);
         tvContenido.setText(studyTable.getTitulo() +  " \n " + studyTable.getDescription());
 
+        // aqui obtenemos del convertView el checkbox y lo marcamos o desmarcamos segun los datos obtenidos
         CheckBox checkBox = convertView.findViewById(R.id.checkBoxTerminado);
         checkBox.setChecked(studyTable.getTerminado() == Constants.ID_CATALOGO_SINO_SI);
         checkBox.setId((int)(long)studyTable.getIdEstudio());
 
+        // Aqui steamos un onChangeListener al checkbox
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

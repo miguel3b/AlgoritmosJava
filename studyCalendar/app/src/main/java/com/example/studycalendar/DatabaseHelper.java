@@ -184,6 +184,49 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return studyTableList;
     }
 
+
+    public ArrayList<ActividadDiariaDTO> getRepasosNoRealizados() {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+
+        StringBuilder sentence = new StringBuilder("SELECT ed.id as idEstudioDetalle,* FROM tema_estudio er " +
+                "inner join estudio_detalle ed on er.id = ed.id_tema_estudio " +
+                "left join catalogo_sino csn on csn.id = ed.terminado ");
+
+        String format = dateFormat.format(new Date());
+        sentence.append("where ed.fecha < '" + format + "' and ed.terminado = 2 ");
+
+        sentence.append(" order by ed.id_tema_estudio, ed.numero_repaso desc");
+
+        Cursor data = db.rawQuery(sentence.toString(), null);
+
+        ArrayList<ActividadDiariaDTO> studyTableList = new ArrayList<>();
+        if (data.getCount() > 0) {
+
+            while (data.moveToNext()) {
+                ActividadDiariaDTO actividadDiariaDTO = new ActividadDiariaDTO();
+                actividadDiariaDTO.setTitulo(data.getString(data.getColumnIndex("title")));
+                actividadDiariaDTO.setDescription(data.getString(data.getColumnIndex("description")));
+                actividadDiariaDTO.setTerminado(data.getInt(data.getColumnIndex("terminado")));
+
+                try {
+                    actividadDiariaDTO.setFechaEstudio(dateFormat.parse(data.getString(data.getColumnIndex("fecha"))));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                actividadDiariaDTO.setIdEstudio(data.getLong(data.getColumnIndex("idEstudioDetalle")));
+                actividadDiariaDTO.setNumeroRepaso(data.getInt(data.getColumnIndex("numero_repaso")));
+                actividadDiariaDTO.setTerminado(data.getInt(data.getColumnIndex("terminado")));
+                studyTableList.add(actividadDiariaDTO);
+            }
+        }
+
+        data.close(); // todo - importante cerrar conexiones abiertas
+        db.close();
+        return studyTableList;
+    }
+
     public ArrayList<EstudioDetalle> getDayActivities (){
 
         SQLiteDatabase db = this.getWritableDatabase();

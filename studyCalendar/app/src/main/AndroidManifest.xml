@@ -18,10 +18,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name="com.example.activity.RepasosSinRealizar"></activity>
         <activity
             android:name="com.example.activity.DailyStudy"
             android:label="@string/title_activity_daily_study"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.example.activity.CreateActivity"
             android:label="@string/title_activity_create"
